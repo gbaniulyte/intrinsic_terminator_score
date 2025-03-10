@@ -1,21 +1,21 @@
-Intrinsic terminator strenght (T~S~) calculator
+Intrinsic terminator strenght (T<sub>S</sub>) calculator
 ===========================
 
-This tool was designed to score potential intrinsic terminators.
+This tool was designed to score potential intrinsic terminators as a batch input.
 It was used to score RNA sequences identified by Term-seq in:
-'''
-Philip P Adams, Gabriele Baniulyte, Caroline Esnault, Kavya Chegireddy, 
-Navjot Singh, Molly Monge, Ryan K Dale, Gisela Storz, Joseph T Wade (2021) 
-Regulatory roles of Escherichia coli 5' UTR and ORF-internal RNAs detected 
-by 3' end mapping eLife 10:e62438. https://doi.org/10.7554/eLife.62438
-'''
+
+```
+Philip P Adams, Gabriele Baniulyte, Caroline Esnault, Kavya Chegireddy, Navjot Singh, Molly Monge, Ryan K Dale, Gisela Storz, Joseph T Wade
+(2021) Regulatory roles of Escherichia coli 5' UTR and ORF-internal RNAs detected by 3' end mapping.
+eLife 10:e62438. https://doi.org/10.7554/eLife.62438
+```
 The scoring method was written as described in:
-'''
-Chen, Ying-Ja, Peng Liu, Alec A. K. Nielsen, Jennifer A. N. Brophy, Kevin Clancy, 
-Todd Peterson, and Christopher A. Voigt. 2013. “Characterization of 582 Natural 
-and Synthetic Terminators and Quantification of Their Design Constraints.” 
+
+```
+Chen, Ying-Ja, Peng Liu, Alec A. K. Nielsen, Jennifer A. N. Brophy, Kevin Clancy, Todd Peterson, and Christopher A. Voigt.
+(2013) Characterization of 582 Natural and Synthetic Terminators and Quantification of Their Design Constraints. 
 Nature Methods 10 (7): 659–64. https://doi.org/10.1038/nmeth.2515.
-'''
+```
 
 Requirements
 -----
@@ -24,36 +24,37 @@ Requirements
 - Kinefold executable download from http://kinefold.curie.fr/download.html
 - ViennaRNA (https://www.tbi.univie.ac.at/RNA/)
 - Tested on WSL/Linux
-::
+```
 	conda install bioconda::viennarna
-
+```
 - Input is a tab-delimited file with multiple sequences where:
-::
+
+```
 	Header is optional
 	column1 = genome coordinates or id
 	column2 = strand (+ or -) (will be reverse-complemented if "-")
 	column3 = DNA or RNA seqeunce (we used 60 nt uptream of the 3' end)
-
+```
 Usage
 -----
 1. Install ViennaRNA
 2. Unpack "kinefold_long_static" folder somewhere conevenient e.g. where this script is
 3. Run python executable
-'''
+```
 python int_term_score.py
-'''
+```
 4. Enter input text file path
-'''
+```
 ./Input.txt
-'''
+```
 5. Enter output text file path
-'''
+```
 ./Output.txt
-'''
+```
 6. Enter path to kinefold fodler with example.dat file
-'''
+```
 ./kinefold_long_static/TEST
-'''
+```
 7. Enter if the input file has headers ("y" or "n")
 
 Be patient, this will take long time. ~800 sequences takes about 40 min to process. 
@@ -65,7 +66,7 @@ Algorithm
 1. RNA seqeunces are passed through Kinefold (for co-transcriptional folding) 20 times to get the most frequent structure;
 2. Then Kinefold output is converted into a dot-bracket annotation and sructures like the hairpin, loop, U-tract, etc. are identified;
 3. This information is passed through RNAfold and RNAeval from ViennaRNA to get free energies for all parts of the RNA structure;
-4. Finally, those values are used to calculate terminator strength (T~S~) using the method from Chen et al, 2013 paper;
+4. Finally, those values are used to calculate terminator strength (T<sub>S</sub>) using the method from Chen et al, 2013 paper;
 5. An output text file with coordinates/id, structures, free energies and Ts score is generated.
 
 Output
